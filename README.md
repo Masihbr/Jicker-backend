@@ -12,3 +12,15 @@ while read requirement; do pip install $requirement || break; done < requirement
 python manage.py migrate
 python manage.py runserver
 ```
+# APIs
+go to 
+```
+localhost:8000/api/schema/swagger-ui/
+```
+and see the docs
+or go to
+```
+localhost:8000/api/schema/
+localhost:8000/api/schema/?format=json
+```
+you can import the file in postman and get on with it!
