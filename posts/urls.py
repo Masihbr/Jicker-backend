@@ -12,4 +12,5 @@ posts_router.register(
 
 urlpatterns = [
     path("crud/", include(posts_router.urls)),
+    path("timeline/", views.TimelineListAPIView.as_view(), name="timeline"),
 ]
