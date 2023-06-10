@@ -7,10 +7,15 @@ User = get_user_model()
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = PasswordField(required=True, min_length=8)
-
+    tokens = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('username', 'password', 'tokens')
+        read_only_fields = ('tokens',)
+
+    def get_tokens(self, obj):
+        return obj.get_tokens()
 
     def create(self, validated_data):
         user = User.objects.create_user(

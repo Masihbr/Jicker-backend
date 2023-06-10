@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import validators as django_auth_validators
 from django.core import validators as django_core_validators
 from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class User(AbstractUser):
@@ -19,3 +20,10 @@ class User(AbstractUser):
             "unique": _("A user with that username already exists."),
         },
     )
+
+    def get_tokens(self) -> dict:
+        refresh = RefreshToken.for_user(self)
+        return {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
