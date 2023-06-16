@@ -13,7 +13,7 @@ class PostModelViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return post_models.Post.objects.filter(user=self.request.user, deleted=False)
+        return post_models.Post.objects.filter(user=self.request.user, deleted=False).order_by("-id")
 
     def perform_destroy(self, instance):
         instance.deleted = True
@@ -28,4 +28,4 @@ class TimelineListAPIView(generics.ListAPIView):
     def get_queryset(self):
         friends = friends_models.Connection.objects.filter(
             follower=self.request.user, deleted=False).values_list('followed', flat=True)
-        return post_models.Post.objects.filter(user__in=friends, deleted=False)
+        return post_models.Post.objects.filter(user__in=friends, deleted=False).order_by("-id")
